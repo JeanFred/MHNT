@@ -9,7 +9,8 @@ sys.path.append('../MassUploadLibrary')
 import os
 from uploadlibrary import metadata
 from iptcinfo import IPTCInfo, IPTCData
-
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class MHNTRecord(metadata.MetadataRecord):
 

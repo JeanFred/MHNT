@@ -13,15 +13,6 @@ from iptcinfo import IPTCInfo, IPTCData
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-class MHNTRecord(metadata.MetadataRecord):
-
-    """Represent a record, with its associated metadata."""
-
-    def get_title(self):
-        """Return the title for the file."""
-        name = None
-        ID = None
-        return "%s - %s - MHNT" % (name, ID)
 
 class MHNTMetadataCollection(MetadataCollection):
 

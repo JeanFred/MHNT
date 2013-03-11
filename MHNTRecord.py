@@ -4,10 +4,11 @@
 
 __authors__ = 'User:Jean-Frédéric'
 
+
 import sys
-sys.path.append('../MassUploadLibrary')
 import os
-from uploadlibrary import metadata
+from uploadlibrary.metadata import MetadataCollection, MetadataRecord
+from uploadlibrary.UploadBot import DataIngestionBot
 from iptcinfo import IPTCInfo, IPTCData
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -22,8 +23,7 @@ class MHNTRecord(metadata.MetadataRecord):
         ID = None
         return "%s - %s - MHNT" % (name, ID)
 
-
-class MHNTMetadataCollection(metadata.MetadataCollection):
+class MHNTMetadataCollection(MetadataCollection):
 
     """Handling a Mundaneum metadata collection."""
 

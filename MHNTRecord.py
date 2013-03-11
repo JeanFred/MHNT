@@ -39,9 +39,8 @@ class MHNTMetadataCollection(MetadataCollection):
         return MetadataRecord(image, metadata)
 
 
-def main(index):
+def main(args):
     """Main method."""
-    print "main()"
     collection = MHNTMetadataCollection()
     files_path = os.path.abspath('./images/')
     collection.retrieve_metadata_from_files(files_path)
@@ -58,7 +57,15 @@ def main(index):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        main(int(sys.argv[1]))
-    else:
-        main(0)
+    from argparse import ArgumentParser
+    parser = ArgumentParser(description="Process metadata and upload to Commons")
+    parser.add_argument('--make-alignment', action="store_true",
+                        help='')
+    parser.add_argument('--post-process', action="store_true",
+                        help='')
+    parser.add_argument('--dry-run', action="store_true",
+                        help='')
+    parser.add_argument('--upload', action="store_true",
+                        help='')
+    args = parser.parse_args()
+    main(args)

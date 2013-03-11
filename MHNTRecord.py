@@ -44,16 +44,28 @@ def main(args):
     collection = MHNTMetadataCollection()
     files_path = os.path.abspath('./images/')
     collection.retrieve_metadata_from_files(files_path)
-    import pickle
-    with open("metadata.dump", 'w') as f:
-        pickle.dump(collection, f)
-    #collection .post_process_collection(mapping)
-    #values = collection.index_unique_metadata_values()
-    values = collection.count_metadata_values()
-    print values
-    #print values.keys()
-    #print len(values['keywords'])
-    #collection.print_metadata_of_record(index)
+
+    alignment_template = 'User:Jean-Frédéric/AlignmentRow'.encode('utf-8')
+
+    if args.make_alignment:
+        for key, value in collection.count_metadata_values().items():
+            collection.write_dict_as_wiki(value, key, 'wiki',
+                                          alignment_template)
+
+    if args.post_process:
+        collection.retrieve_metadata_alignments(None,
+                                                alignment_template)
+        mapping = {}
+        reader = collection.post_process_collection(mapping)
+        template_name = 'User:Jean-Frédéric/Trutat/Ingestion'.encode('utf-8')
+        titlefmt = "%(headline)s - Fonds Trutat - %(object name)s"
+        uploadBot = DataIngestionBot(reader=iter(collection.records),
+                                     titlefmt=titlefmt,
+                                     pagefmt=template_name)
+        if args.upload:
+            uploadBot.doSingle()
+        elif args.dry_run:
+            uploadBot.dry_run()
 
 
 if __name__ == "__main__":

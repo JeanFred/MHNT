@@ -30,10 +30,13 @@ class MHNTMetadataCollection(MetadataCollection):
         for key, value in info.getData().items():
             key = IPTCData.keyAsStr(key)
             try:
-                metadata[key] = value.decode('latin-1')
+                metadata[key] = value.decode('utf-8').strip()
             except:
-                metadata[key] = value
-        return MHNTRecord(**metadata)
+                try:
+                    metadata[key] = value.decode('latin-1').strip()
+                except:
+                    metadata[key] = value
+        return MetadataRecord(image, metadata)
 
 
 def main(index):
